@@ -1,3 +1,13 @@
+/* Amplitude Modulation on Audio Files
+ * By Andrew Davis
+ *
+ * A subtractive synthesizer loosely based on the signal flow of the MiniMoog.
+ * The synthesizer allows for three oscillators and a white noise
+ * generator for the sound source as well as a modulator for frequency
+ * modulation.  The sound sources are passed to a resonant lowpass filter
+ * and then to an ADSR envelope.  The code is intended for a midi keyboard
+ * setup.
+ */
 
 (
 SynthDef(\minimoog, {
