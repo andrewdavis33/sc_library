@@ -116,6 +116,8 @@ x = Synth(\minimoog, [
 ]);
 )
 
+x.free;
+
 x.set(\gate, 0);
 
 // With keyboard
@@ -134,12 +136,12 @@ MIDIdef.noteOn(\adsrOn, {
 	var synth = Synth(~soundDef, [
 		\amp, 1,
 
-		\select1, 2,
-		\freq1, freq/2,
+		\select1, 3,
+		\freq1, freq,
 		\amp1, 0.2,
 
 		\select2, 2,
-		\freq2, freq,
+		\freq2, freq * 2,
 		\amp2, 0.4,
 
 		\select3, 0,
@@ -152,9 +154,9 @@ MIDIdef.noteOn(\adsrOn, {
 		\modSwitch, 0,
 		\lfoFreq, 0.1,
 
-		\vcfStartFreq, 700,
-		\vcfPeakFreq, 700,
-		\vcfRelFreq, 700,
+		\vcfStartFreq, 3000,
+		\vcfPeakFreq, 10000,
+		\vcfRelFreq, 3000,
 		\vcfAtk, 0.05,
 		\vcfEnd, 0.05,
 

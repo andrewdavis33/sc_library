@@ -7,8 +7,13 @@
 
 (
 SynthDef(\grainSparkles, {
-	arg out = 0, rout, dmix = 1, rmix = 0, amp = 0.01, bufnum, start = 0, end = 1, pos = 0,
-	atkTime = 0.01, decTime = 0.2, susTime = 10, relTime = 1, susLvl = 0.4, c1 = (-1), c2 = 1;
+	arg out = 0,
+	amp = 0.01,
+	bufnum, // Required argument to supply where to generate grains from
+	start = 0, // The starting position of the audio file on a scale from 0 to 1
+	end = 1, // The ending position of the audio file on a scale from 0 to 1
+	pan = 0,
+	atkTime = 0.01, decTime = 0.2, susTime = 10, relTime = 1, susLvl = 0.4, c1 = -1, c2 = 1;
 	var sig, trig, env, duration;
 
 	duration = atkTime + decTime + susTime + relTime;
@@ -42,9 +47,25 @@ SynthDef(\grainSparkles, {
 	);
 
 	// Pan
-	sig = Balance2.ar(sig[0], sig[1], pos);
+	sig = Balance2.ar(sig[0], sig[1], pan);
 	sig = sig * env;
-	Out.ar(out, sig * dmix);
-	Out.ar(rout, sig * rmix);
+	Out.ar(out, sig);
 }).add;
 )
+
+// Make grain sparkles using the sound source of beethoven
+// grainSparkles takes a mono sound so we only read in one channel of the beethoven
+(
+~fileName = "beethoven_frag.wav";
+~buf = Buffer.readChannel(s, thisProcess.nowExecutingPath.dirname.dirname +/+ "sounds" +/+ ~fileName, channels: [0]);
+)
+
+(
+Synth(\grainSparkles, [
+	\bufnum, ~buf,
+	\start, 0,
+	\end, 0.01,
+	\amp, 0.2
+]);
+)
+s.meter;
